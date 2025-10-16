@@ -193,8 +193,8 @@ public class CardLayoutFrame extends JFrame
         try
         {
             // Used to import the file for our questions
-            FileReader fileReaderQuestionSet1 = new FileReader("Project1/src/questionSet1.txt"); // File location needs to be from src parent directory
-            FileReader fileReaderAnswerSet1 = new FileReader("Project1/src/answersSet1.txt");
+            FileReader fileReaderQuestionSet1 = new FileReader("Mini Project/src/questionSet1.txt"); // File location needs to be from src parent directory
+            FileReader fileReaderAnswerSet1 = new FileReader("Mini Project/src/answersSet1.txt");
 
             // Reads the imported file and adds it to the buffer
             BufferedReader bufferedReaderQuestionSet1 = new BufferedReader(fileReaderQuestionSet1);
