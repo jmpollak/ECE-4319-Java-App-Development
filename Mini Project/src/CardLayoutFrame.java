@@ -193,12 +193,12 @@ public class CardLayoutFrame extends JFrame
         try
         {
             // Used to import the file for our questions
-            FileReader fileReaderQuestionSet1 = new FileReader("Project1/src/questionSet1.txt"); // File location needs to be from src parent directory
-            FileReader fileReaderAnswerSet1 = new FileReader("Project1/src/answersSet1.txt");
+            FileReader fileReaderQuestionSet1 = new FileReader("Mini Project/src/questionSet1.txt"); // File location needs to be from src parent directory
+            FileReader fileReaderAnswerSet1 = new FileReader("Mini Project/src/answersSet1.txt");
 
             // Reads the imported file and adds it to the buffer
-            BufferedReader bufferedReaderQuestionSet1 = new BufferedReader(fileReaderQuestionSet1);
-            BufferedReader bufferedReaderAnswerSet1 = new BufferedReader(fileReaderAnswerSet1);
+            BufferedReader bufferedReaderQuestionSet = new BufferedReader(fileReaderQuestionSet1);
+            BufferedReader bufferedReaderAnswerSet = new BufferedReader(fileReaderAnswerSet1);
 
             // Counter used for indexing the file
             int questionSet1 = 0;
@@ -207,7 +207,7 @@ public class CardLayoutFrame extends JFrame
             // Reading the text file
             while (true)
             {
-                line = bufferedReaderQuestionSet1.readLine();
+                line = bufferedReaderQuestionSet.readLine();
                 // Catching if the there is no more text
                 if (line == null)
                 {
@@ -234,7 +234,7 @@ public class CardLayoutFrame extends JFrame
             // Putting in the correct answers
             for(int i = 0; i < 10;i++)
             {
-                line = bufferedReaderAnswerSet1.readLine();
+                line = bufferedReaderAnswerSet.readLine();
                 correctAnswers.add(Integer.parseInt(line));
                 // Testing
                 System.out.println(questionGroups.get(i));
