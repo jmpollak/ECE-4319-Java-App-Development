@@ -10,5 +10,8 @@ public class Main
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null); // Set the location of this frame by some component. null means center
         frame.setVisible(true);
+
+        // Testing import file
+        frame.importQuestionsFromFile();
     }
 }

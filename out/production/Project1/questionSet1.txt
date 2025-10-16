@@ -35,16 +35,16 @@ Red
 Green
 Question 8: How many stars are in the milky way?
 1 Billion
+100 Billion
 10 Billion
-100 Billion *
 1 Trillion
 Question 9: Which Apollo mission landed on the moon?
 1
 9
-11 *
+11
 13
 Question 10: What is not a phase of a star?
 Red Giant
 White Dwarf
 Supernova
-Nebula *
+Nebula
