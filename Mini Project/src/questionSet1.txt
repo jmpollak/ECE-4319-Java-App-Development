@@ -1,0 +1,50 @@
+Question 1: What do we refer to BST in 4319?
+British Summer Time
+Breadth Search Tree
+Binary Search Tree
+None of above
+Question 2: Which class belongs to Java Swing?
+NumberFormatException
+String
+Graphics
+None of above
+Question 3: What is the capital of France?
+Paris
+London
+Berlin
+Rome
+Question 4:Which planet is known as the Red Planet?
+Earth
+Venus
+Mars
+Jupiter
+Question 5: Recursion always needs a?
+Loop
+Base Case
+Queue
+Stack
+Question 6: In Star Wars, Film, How did Princess Leia get her title of royalty?
+She is the adopted daughter of Bail Organa and Queen Breha
+Her sharp aim with a blaster
+A mocking nickname from Han Solo
+She is the daughter of Queen Katrina of the Geonosians
+Question 7:What is the colors for their Sith lightsabers?
+Purple
+Blue
+Red
+Green
+Question 8: How many stars are in the milky way?
+1 Billion
+100 Billion
+10 Billion
+1 Trillion
+Question 9: Which Apollo mission landed on the moon?
+1
+9
+11
+13
+Question 10: What is not a phase of a star?
+Red Giant
+White Dwarf
+Supernova
+Nebula
