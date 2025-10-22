@@ -1,50 +1,50 @@
-Question 1: What do we refer to BST in 4319?
-British Summer Time
-Breadth Search Tree
-Binary Search Tree
-None of above
-Question 2: Which class belongs to Java Swing?
-NumberFormatException
-String
-Graphics
-None of above
-Question 3: What is the capital of France?
-Paris
-London
-Berlin
-Rome
-Question 4:Which planet is known as the Red Planet?
-Earth
-Venus
-Mars
-Jupiter
-Question 5: Recursion always needs a?
-Loop
-Base Case
-Queue
-Stack
-Question 6: In Star Wars, Film, How did Princess Leia get her title of royalty?
-She is the adopted daughter of Bail Organa and Queen Breha
-Her sharp aim with a blaster
-A mocking nickname from Han Solo
-She is the daughter of Queen Katrina of the Geonosians
-Question 7:What is the colors for their Sith lightsabers?
-Purple
-Blue
-Red
-Green
-Question 8: How many stars are in the milky way?
-1 Billion
-100 Billion
-10 Billion
-1 Trillion
-Question 9: Which Apollo mission landed on the moon?
-1
-9
-11
-13
-Question 10: What is not a phase of a star?
-Red Giant
-White Dwarf
-Supernova
-Nebula
+Question 1: How many members were in the Hobbit company for the quest to reclaim the Lonely Mountain from Smaug?
+3 wizards, 12 dwarves, 4 hobbits
+2 wizards, 14 dwarves, 2 hobbits
+1 wizard, 13 dwarves, 1 hobbit
+4 wizards, 6 dwarves, 6 hobbits
+Question 2: What were the names of the Hobbit company?
+Gandalf, Thorin, Bilbo, Dwalin, Balin, Kili, Fili, Dori, Nori, Ori, Oin, Gloin, Bifur, Bofur, and Bombur
+Gandalf, Smeagol, Frodo, Bilbo, Kili, Fili, Aragon, Bombur, Thorin, Oin, Gloin, Bifur, Bofur, and Bombur
+Gandalf, Smeagol, Frodo, Sam, Kili, Legolas, Aragon, Merry, Thorin, Oin, Pippin, Bifur, and Boromir
+Gandalf, Gimli, Bilbo, Sam, Frodo, Merry, Pippin, Legolas, Boromir, Smeagol, Kili, Fili, Bard and Tauriel
+Question 3: What were the Hobbit Mealtimes?
+Breakfast, Second Breakfast, Tenses, Lunch, Snack, Dinner, Supper, Dessert
+Early Coffee, Breakfast, Snacktime, Early Tea, Lunch, Late Tea, Dinner, Dessert
+Coffee, Breakfast, Early Tea, Lunch, Snacktime, Dinner, Supper, Midnight Snack
+Breakfast, Second Breakfast, Elevenses, Luncheon, Afternoon Tea, Dinner, Supper
+Question 4: What was Aragon’s other name in the Lord of the Rings?
+Arathorn
+Thorin
+Strider
+Balin
+Question 5: Complete the Meme – One does not simply…
+Knock on the door
+Walk through the door
+Shock the Moors
+Walk into Mordor
+Question 6: Complete the Statement – One Ring to …
+Make them small
+Create a wall
+Show them all
+Rule them all
+Question 7: In the Hobbit books there was a different depiction of Orcs from the Trilogy Movies:
+Wraiths
+Skeletons
+Goblins
+Zombies
+Question 8: Who is the author of the Hobbit and the LOTR?
+C. S. Lewis
+J. R. R. Tolkien
+J. K. Rowling
+R. Riordan
+Question 9: In what franchise does the Battle of Five Armies take place?
+The Rings of Power
+House of the Dragon
+Lord of the Rings
+The Hobbit
+Question 10: Who follows both Bilbo and Frodo?
+Dobby
+Smeagol
+Kreacher
+Gollum
