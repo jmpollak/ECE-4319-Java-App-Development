@@ -31,7 +31,7 @@ a game title.
 2. (10%) Create a Start button. After clicking the 
 start button, the game  should start.
 
-#### 2. Question Display (20%)
+#### 2. Given_Code.Question Display (20%)
 
 1. (15%) After started, your game should display 
 questions one at a time. Each question appears with 
@@ -68,13 +68,13 @@ button to restart and back to welcome screen.
 
 ### Extra Features and Extra Credit (25%)
 
-#### 1. Question Categories (5%)
+#### 1. Given_Code.Question Categories (5%)
 1. Create multiple categories for player to choose 
 from on the welcome screen (such as Test preparation
 for java, DMV knowledge test question bank, other 
 subjects such as History, Sports...etc.)
 
-#### 2. Timer per Question (5%)
+#### 2. Timer per Given_Code.Question (5%)
 1. Set up a timer and define a time limitation that 
 the player must answer before selecting one option. 
 If the player does not select an answer in time, mark 
@@ -107,7 +107,7 @@ wrong.)
 ...etc) with good separation of concerns.
 
 #### 3. Data Structures:
-1. Store questions in an ArrayList<Question> 
+1. Store questions in an ArrayList<Given_Code.Question> 
 (or another suitable structure).
 
 #### 4. Robustness:
