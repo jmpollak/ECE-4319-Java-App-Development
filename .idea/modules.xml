@@ -3,8 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/ECE-4319-Java-App-Development.iml" filepath="$PROJECT_DIR$/.idea/ECE-4319-Java-App-Development.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FInal Project/FInal Project.iml" filepath="$PROJECT_DIR$/FInal Project/FInal Project.iml" />
       <module fileurl="file://$PROJECT_DIR$/Mini Project/Mini Project.iml" filepath="$PROJECT_DIR$/Mini Project/Mini Project.iml" />
       <module fileurl="file://$PROJECT_DIR$/Week 10/Week 10.iml" filepath="$PROJECT_DIR$/Week 10/Week 10.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week 13/Week 13.iml" filepath="$PROJECT_DIR$/Week 13/Week 13.iml" />
       <module fileurl="file://$PROJECT_DIR$/Week 2/Week 2.iml" filepath="$PROJECT_DIR$/Week 2/Week 2.iml" />
       <module fileurl="file://$PROJECT_DIR$/Week 3/Week 3.iml" filepath="$PROJECT_DIR$/Week 3/Week 3.iml" />
       <module fileurl="file://$PROJECT_DIR$/Week 4/Week 4.iml" filepath="$PROJECT_DIR$/Week 4/Week 4.iml" />
