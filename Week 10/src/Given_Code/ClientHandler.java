@@ -8,21 +8,21 @@ import java.util.List;
 
 public class ClientHandler
 {
-    //Clas Members
     private ServerFrame frame;
     private Socket socket;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
-    private List<Question> questions;
+    private String playerName;
 
-    public ClientHandler(ServerFrame frame, Socket socket, List<Question> questions)
+    public ClientHandler(ServerFrame frame, Socket socket, String playerName)
     {
         this.frame = frame;
         this.socket = socket;
-        this.questions = questions;
+        this.playerName = playerName;
+        this.frame.setClientHandler(this);
     }
 
-    public void sendQuestionsReceiveAnswers()
+    public void waitForCategorySelection()
     {
         try
         {
@@ -31,26 +31,46 @@ public class ClientHandler
 
             inputStream = new ObjectInputStream(socket.getInputStream());
 
-            for(Question question: questions)
-            {
-                outputStream.writeObject("Q: " + question.getQuestion());
-                for(int i = 0; i < 4; i++)
-                {
-                    outputStream.writeObject((i+1) + ") "+ question.getOptions()[i]);
-                    outputStream.flush();
-                }
-                outputStream.writeObject("Your answer is: ");
-                outputStream.flush();
+            System.out.println("[" + playerName + "] Waiting for category selection...");
 
-                String answer = (String) inputStream.readObject();
-                if(frame.validateAnswers(question, answer))
-                {
-                    //Scoring
-                }
+            // Wait for category selection from GUI
+            String selectedCategory = frame.waitForCategorySelection();
+
+            System.out.println("[" + playerName + "] Selected category: " + selectedCategory);
+
+            // Get the questions for the selected category
+            List<Question> questions = Server.questionSets.get(selectedCategory);
+
+            if (questions == null || questions.isEmpty())
+            {
+                System.out.println("[" + playerName + "] ERROR: No questions found for category " + selectedCategory);
+                return;
             }
+
+            // Start the game with selected questions
+            frame.startGame(questions);
+
+            System.out.println("[" + playerName + "] Starting game with " + questions.size() + " questions...");
+
+            for(int i = 0; i < questions.size(); i++)
+            {
+                Question question = questions.get(i);
+
+                System.out.println("[" + playerName + "] Waiting for answer to question " + (i + 1));
+
+                // Wait for GUI button click
+                int answer = frame.waitForAnswer();
+
+                // Validate and update GUI
+                boolean isCorrect = frame.validateAnswers(question, String.valueOf(answer));
+            }
+
+            System.out.println("[" + playerName + "] Game completed. Score: " +
+                    frame.getScore() + "/" + questions.size());
         }
-        catch(IOException | ClassNotFoundException e) // Merge the IOException and ClassNotFoundException into 1
+        catch(Exception e)
         {
+            System.out.println("[" + playerName + "] Error occurred: " + e.getMessage());
             e.printStackTrace();
         }
     }

@@ -1,0 +1,25 @@
+Given_Code.Question 1: What do we refer to BST in 4319 ?
+British Summer Time
+Breadth Search Tree
+Binary Search Tree
+None of above
+Given_Code.Question 2: Which class belongs to Java Swing?
+NumberFormatException
+String
+Graphics
+None of above
+Given_Code.Question 3: What is the capital of France?
+Paris
+London
+Berlin
+Rome
+Given_Code.Question 4:Which planet is known as the Red Planet?
+Earth
+Venus
+Mars
+Jupiter
+Given_Code.Question 5: Recursion always needs a?
+Loop
+Base Case
+Queue
+Stack

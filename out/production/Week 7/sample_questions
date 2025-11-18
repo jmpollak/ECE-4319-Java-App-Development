@@ -1,0 +1,27 @@
+private void importQuestions() {
+        questionsPair = new ArrayList<>();
+        correctAnswers = new ArrayList<>();
+
+        questionsPair.add(List.of("Given_Code.Question 1: What do we refer to BST in 4319 ?",
+                "British Summer Time",
+                "Breadth Search Tree",
+                "Binary Search Tree",
+                "None of above"));
+        correctAnswers.add(2);
+
+        questionsPair.add(List.of("Which class belongs to Java Swing?",
+                "NumberFormatException",
+                "String",
+                "Graphics",
+                "None of above"));
+        correctAnswers.add(3);
+
+        questionsPair.add(List.of("What is the capital of France?", "Paris", "London", "Berlin", "Rome"));
+        correctAnswers.add(0);
+
+        questionsPair.add(List.of("Which planet is known as the Red Planet?", "Earth", "Venus", "Mars", "Jupiter"));
+        correctAnswers.add(2);
+
+        questionsPair.add(List.of("Recursion always needs a?", "Loop", "Base Case", "Queue", "Stack"));
+        correctAnswers.add(1);
+    }
