@@ -1,6 +1,8 @@
 package FinalVersion;
 import java.io.*;
 import java.net.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -8,7 +10,7 @@ public class TriviaServer
 {
     private static final int PORT = 8888;
     private static final int MAX_PLAYERS = 10;
-    private static final int QUESTION_TIME_LIMIT = 30; // 15 seconds per question
+    private static final int QUESTION_TIME_LIMIT = 30; // 30 seconds per question
 
     private ServerSocket serverSocket;
     private List<ClientHandler> clients;
@@ -18,9 +20,14 @@ public class TriviaServer
     private List<Integer> correctAnswers;
     private int currentQuestionIndex;
     private String currentQuestionSet;
+    private int currentCategory; // 1-4 for the four categories
     private boolean gameInProgress;
     private int playersReady;
     private Timer questionTimer;
+
+    // Database manager
+    private DatabaseManager dbManager;
+    private Set<String> loggedInUsers; // Track currently logged in users
 
     public TriviaServer()
     {
@@ -30,6 +37,15 @@ public class TriviaServer
         currentQuestionIndex = 0;
         gameInProgress = false;
         playersReady = 0;
+        currentCategory = 0;
+
+        // Initialize database connection
+        loggedInUsers = ConcurrentHashMap.newKeySet();
+        dbManager = new DatabaseManager();
+
+        if (!dbManager.isConnected()) {
+            System.err.println("WARNING: Database connection failed. Server may not function properly.");
+        }
     }
 
     public void start()
@@ -57,12 +73,18 @@ public class TriviaServer
                 clients.add(clientHandler);
                 new Thread(clientHandler).start();
 
-                System.out.println("New player connected. Total players: " + clients.size());
+                System.out.println("New connection established. Total connections: " + clients.size());
             }
         }
         catch (IOException e)
         {
             System.err.println("Server error: " + e.getMessage());
+        }
+        finally
+        {
+            if (dbManager != null) {
+                dbManager.close();
+            }
         }
     }
 
@@ -198,6 +220,13 @@ public class TriviaServer
             questionTimer.cancel();
         }
 
+        // Update high scores in database for each player
+        for (Map.Entry<String, Integer> entry : playerScores.entrySet()) {
+            String username = entry.getKey();
+            int score = entry.getValue();
+            dbManager.updateUserScore(username, currentCategory, score);
+        }
+
         // Sort players by score
         List<Map.Entry<String, Integer>> sortedScores = new ArrayList<>(playerScores.entrySet());
         sortedScores.sort((a, b) -> b.getValue().compareTo(a.getValue()));
@@ -209,6 +238,10 @@ public class TriviaServer
         }
 
         broadcast(results.toString());
+
+        // Send high scores for the category
+        sendHighScores(currentCategory);
+
         System.out.println("Game ended. Final scores sent to all players.");
 
         // Reset for next game
@@ -218,16 +251,39 @@ public class TriviaServer
         playersAnswered.clear();
     }
 
+    private void sendHighScores(int category) {
+        try {
+            ResultSet rs = dbManager.getHighScores(category, 10);
+            if (rs != null) {
+                StringBuilder highScores = new StringBuilder("HIGH_SCORES|");
+                highScores.append(category).append("|");
+
+                while (rs.next()) {
+                    String username = rs.getString("username");
+                    int score = rs.getInt("score");
+                    highScores.append(username).append(":").append(score).append("|");
+                }
+
+                broadcast(highScores.toString());
+                System.out.println("High scores sent for category " + category);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error sending high scores: " + e.getMessage());
+        }
+    }
+
     private class ClientHandler implements Runnable
     {
         private Socket socket;
         private PrintWriter out;
         private BufferedReader in;
         private String username;
+        private boolean authenticated;
 
         public ClientHandler(Socket socket)
         {
             this.socket = socket;
+            this.authenticated = false;
         }
 
         public void sendMessage(String message)
@@ -270,18 +326,107 @@ public class TriviaServer
 
             switch (command)
             {
-                case "USERNAME":
-                    username = parts[1];
-                    playerScores.put(username, 0);
-                    sendMessage("USERNAME_OK|" + username);
-                    updatePlayerList();
-                    System.out.println("Player registered: " + username);
+                case "SIGN_UP":
+                    if (parts.length >= 3)
+                    {
+                        String user = parts[1];
+                        String pass = parts[2];
+
+                        // Validate input
+                        if (user.isEmpty() || pass.isEmpty()) {
+                            sendMessage("REGISTER_FAILED|Username and password cannot be empty");
+                            return;
+                        }
+
+                        if (pass.length() < 4) {
+                            sendMessage("REGISTER_FAILED|Password must be at least 4 characters");
+                            return;
+                        }
+
+                        if (loggedInUsers.contains(user)) {
+                            sendMessage("REGISTER_FAILED|User already logged in");
+                            return;
+                        }
+
+                        // Try to register in database
+                        boolean success = dbManager.registerUser(user, pass);
+
+                        if (success) {
+                            username = user;
+                            authenticated = true;
+                            loggedInUsers.add(username);
+                            playerScores.put(username, 0);
+
+                            // Send user their previous scores
+                            DatabaseManager.UserScores scores = dbManager.getUserScores(username);
+                            if (scores != null) {
+                                sendMessage("USER_SCORES|" + scores.scoreCat1 + "|" + scores.scoreCat2 +
+                                        "|" + scores.scoreCat3 + "|" + scores.scoreCat4);
+                            }
+
+                            sendMessage("REGISTER_SUCCESS|" + username);
+                            updatePlayerList();
+                            System.out.println("New player registered and joined: " + username);
+                        } else {
+                            sendMessage("REGISTER_FAILED|Username already exists");
+                        }
+                    }
+                    break;
+
+                case "SIGN_IN":
+                    if (parts.length >= 3)
+                    {
+                        String user = parts[1];
+                        String pass = parts[2];
+
+                        // Validate input
+                        if (user.isEmpty() || pass.isEmpty()) {
+                            sendMessage("LOGIN_FAILED|Username and password cannot be empty");
+                            return;
+                        }
+
+                        // Check if user exists
+                        if (!dbManager.userExists(user)) {
+                            sendMessage("LOGIN_FAILED|Username does not exist");
+                            return;
+                        }
+
+                        // Check if already logged in
+                        if (loggedInUsers.contains(user)) {
+                            sendMessage("LOGIN_FAILED|User already logged in");
+                            return;
+                        }
+
+                        // Authenticate
+                        boolean authenticated = dbManager.authenticateUser(user, pass);
+
+                        if (authenticated) {
+                            username = user;
+                            this.authenticated = true;
+                            loggedInUsers.add(username);
+                            playerScores.put(username, 0);
+
+                            // Send user their previous scores
+                            DatabaseManager.UserScores scores = dbManager.getUserScores(username);
+                            if (scores != null) {
+                                sendMessage("USER_SCORES|" + scores.scoreCat1 + "|" + scores.scoreCat2 +
+                                        "|" + scores.scoreCat3 + "|" + scores.scoreCat4);
+                            }
+
+                            sendMessage("LOGIN_SUCCESS|" + username);
+                            updatePlayerList();
+                            System.out.println("Player logged in and joined: " + username);
+                        } else {
+                            sendMessage("LOGIN_FAILED|Incorrect password");
+                        }
+                    }
                     break;
 
                 case "QUESTION_SET":
-                    if (!gameInProgress)
+                    if (!gameInProgress && authenticated)
                     {
                         int setIndex = Integer.parseInt(parts[1]);
+                        currentCategory = setIndex + 1; // Store category (1-4)
                         String questionPath = "Mini Project/src/questionSet" + (setIndex + 1) + ".txt";
                         String answerPath = "Mini Project/src/answerSet" + (setIndex + 1) + ".txt";
                         loadQuestions(questionPath, answerPath);
@@ -291,27 +436,30 @@ public class TriviaServer
                     break;
 
                 case "READY":
-                    playersReady++;
-                    broadcast("PLAYER_READY|" + username + "|" + playersReady + "|" + clients.size());
-
-                    if (playersReady >= clients.size() && clients.size() > 0 && !gameInProgress)
+                    if (authenticated)
                     {
-                        gameInProgress = true;
+                        playersReady++;
+                        broadcast("PLAYER_READY|" + username + "|" + playersReady + "|" + clients.size());
 
-                        // Small delay before starting
-                        Timer startTimer = new Timer();
-                        startTimer.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                broadcast("GAME_START");
-                                sendQuestion();
-                            }
-                        }, 1000); // 1 second delay
+                        if (playersReady >= clients.size() && clients.size() > 0 && !gameInProgress)
+                        {
+                            gameInProgress = true;
+
+                            // Small delay before starting
+                            Timer startTimer = new Timer();
+                            startTimer.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    broadcast("GAME_START");
+                                    sendQuestion();
+                                }
+                            }, 1000); // 1 second delay
+                        }
                     }
                     break;
 
                 case "ANSWER":
-                    if (gameInProgress && !playersAnswered.contains(username))
+                    if (gameInProgress && authenticated && !playersAnswered.contains(username))
                     {
                         playersAnswered.add(username);
 
@@ -324,7 +472,10 @@ public class TriviaServer
                             playerScores.put(username, playerScores.get(username) + 1);
                         }
 
-                        sendMessage("ANSWER_RESULT|" + correct + "|" + playerScores.get(username));
+                        // Send result with correct answer index and selected answer
+                        sendMessage("ANSWER_RESULT|" + correct + "|" +
+                                playerScores.get(username) + "|" +
+                                correctAnswer + "|" + answerIndex);
 
                         // Broadcast updated scores
                         StringBuilder scoreUpdate = new StringBuilder("SCORE_UPDATE|");
@@ -358,8 +509,71 @@ public class TriviaServer
                     }
                     break;
 
+                case "SKIP":
+                    if (gameInProgress && authenticated && !playersAnswered.contains(username))
+                    {
+                        playersAnswered.add(username);
+
+                        // Skipped question counts as wrong, don't increment score
+                        int correctAnswer = correctAnswers.get(currentQuestionIndex);
+
+                        // Send result showing it was skipped (-1 for skip)
+                        sendMessage("ANSWER_RESULT|false|" +
+                                playerScores.get(username) + "|" +
+                                correctAnswer + "|-1");
+
+                        // Broadcast updated scores
+                        StringBuilder scoreUpdate = new StringBuilder("SCORE_UPDATE|");
+                        for (Map.Entry<String, Integer> entry : playerScores.entrySet())
+                        {
+                            scoreUpdate.append(entry.getKey()).append(":").append(entry.getValue()).append("|");
+                        }
+                        broadcast(scoreUpdate.toString());
+
+                        // Check if all players have answered
+                        if (playersAnswered.size() >= clients.size())
+                        {
+                            System.out.println("All players answered. Moving to next question.");
+
+                            // Cancel the timer since everyone answered
+                            if (questionTimer != null)
+                            {
+                                questionTimer.cancel();
+                            }
+
+                            // Move to next question after brief delay
+                            Timer nextTimer = new Timer();
+                            nextTimer.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    currentQuestionIndex++;
+                                    sendQuestion();
+                                }
+                            }, 2000); // 2 second delay
+                        }
+                    }
+                    break;
+
+                case "REQUEST_HIGH_SCORES":
+                    if (authenticated && parts.length >= 2) {
+                        int category = Integer.parseInt(parts[1]);
+                        sendHighScores(category);
+                    }
+                    break;
+
+                case "REQUEST_USER_SCORES":
+                    if (authenticated) {
+                        // Send user their updated scores from database
+                        DatabaseManager.UserScores scores = dbManager.getUserScores(username);
+                        if (scores != null) {
+                            sendMessage("USER_SCORES|" + scores.scoreCat1 + "|" + scores.scoreCat2 +
+                                    "|" + scores.scoreCat3 + "|" + scores.scoreCat4);
+                        }
+                    }
+                    break;
+
                 case "RESTART":
-                    if (!gameInProgress)
+                    if (!gameInProgress && authenticated)
                     {
                         currentQuestionIndex = 0;
                         playersReady = 0;
@@ -394,6 +608,7 @@ public class TriviaServer
             {
                 playerScores.remove(username);
                 playersAnswered.remove(username);
+                loggedInUsers.remove(username);
                 updatePlayerList();
             }
 

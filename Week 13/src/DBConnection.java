@@ -19,8 +19,7 @@ public class DBConnection
     {
         UserCRUD userCRUD = new UserCRUD(getConnection());
 
-        userCRUD.addUser("testUser01");
-
+//        userCRUD.addUser("testUser01");
         userCRUD.listUsers();
 
         userCRUD.updateUser(7,"testUser0000001");
