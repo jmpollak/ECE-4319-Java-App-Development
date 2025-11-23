@@ -71,7 +71,7 @@ button to restart and back to welcome screen.
 #### 1. Given_Code.Question Categories (5%)
 1. Create multiple categories for player to choose 
 from on the welcome screen (such as Test preparation
-for java, DMV knowledge test question bank, other 
+for java, DMV knowledge FinalVersion question bank, other 
 subjects such as History, Sports...etc.)
 
 #### 2. Timer per Given_Code.Question (5%)

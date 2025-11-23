@@ -1,10 +1,11 @@
-package test;
+package FinalVersion;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
 
-public class TriviaServer {
+public class TriviaServer
+{
     private static final int PORT = 8888;
     private static final int MAX_PLAYERS = 10;
     private static final int QUESTION_TIME_LIMIT = 30; // 15 seconds per question
@@ -21,7 +22,8 @@ public class TriviaServer {
     private int playersReady;
     private Timer questionTimer;
 
-    public TriviaServer() {
+    public TriviaServer()
+    {
         clients = new CopyOnWriteArrayList<>();
         playerScores = new ConcurrentHashMap<>();
         playersAnswered = ConcurrentHashMap.newKeySet();
@@ -30,17 +32,21 @@ public class TriviaServer {
         playersReady = 0;
     }
 
-    public void start() {
-        try {
+    public void start()
+    {
+        try
+        {
             serverSocket = new ServerSocket(PORT);
             System.out.println("Trivia Server started on port " + PORT);
             System.out.println("Question time limit: " + QUESTION_TIME_LIMIT + " seconds");
             System.out.println("Waiting for players to connect...");
 
-            while (true) {
+            while (true)
+            {
                 Socket clientSocket = serverSocket.accept();
 
-                if (clients.size() >= MAX_PLAYERS) {
+                if (clients.size() >= MAX_PLAYERS)
+                {
                     PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
                     out.println("SERVER_FULL");
                     clientSocket.close();
@@ -53,26 +59,32 @@ public class TriviaServer {
 
                 System.out.println("New player connected. Total players: " + clients.size());
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             System.err.println("Server error: " + e.getMessage());
         }
     }
 
-    private void loadQuestions(String questionSetPath, String answerSetPath) {
+    private void loadQuestions(String questionSetPath, String answerSetPath)
+    {
         questionGroups = new ArrayList<>();
         correctAnswers = new ArrayList<>();
         List<String> questionTextString = new ArrayList<>();
 
-        try {
+        try
+        {
             BufferedReader questionReader = new BufferedReader(new FileReader(questionSetPath));
             BufferedReader answerReader = new BufferedReader(new FileReader(answerSetPath));
 
             String line;
-            while ((line = questionReader.readLine()) != null) {
+            while ((line = questionReader.readLine()) != null)
+            {
                 questionTextString.add(line);
             }
 
-            for (int i = 0; i <= (questionTextString.size() - 5); i += 5) {
+            for (int i = 0; i <= (questionTextString.size() - 5); i += 5)
+            {
                 questionGroups.add(List.of(
                         questionTextString.get(i),
                         questionTextString.get(i + 1),
@@ -82,7 +94,8 @@ public class TriviaServer {
                 ));
             }
 
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 10; i++)
+            {
                 line = answerReader.readLine();
                 correctAnswers.add(Integer.parseInt(line));
             }
@@ -92,19 +105,25 @@ public class TriviaServer {
 
             System.out.println("Loaded " + questionGroups.size() + " questions from " + questionSetPath);
 
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             System.err.println("Error loading questions: " + e.getMessage());
         }
     }
 
-    private void broadcast(String message) {
-        for (ClientHandler client : clients) {
+    private void broadcast(String message)
+    {
+        for (ClientHandler client : clients)
+        {
             client.sendMessage(message);
         }
     }
 
-    private void sendQuestion() {
-        if (currentQuestionIndex >= questionGroups.size()) {
+    private void sendQuestion()
+    {
+        if (currentQuestionIndex >= questionGroups.size())
+        {
             endGame();
             return;
         }
@@ -115,7 +134,8 @@ public class TriviaServer {
         StringBuilder questionMessage = new StringBuilder("QUESTION|");
         questionMessage.append(currentQuestionIndex + 1).append("|");
         questionMessage.append(QUESTION_TIME_LIMIT).append("|"); // Send time limit
-        for (String part : question) {
+        for (String part : question)
+        {
             questionMessage.append(part).append("|");
         }
 
@@ -126,9 +146,11 @@ public class TriviaServer {
         startQuestionTimer();
     }
 
-    private void startQuestionTimer() {
+    private void startQuestionTimer()
+    {
         // Cancel any existing timer
-        if (questionTimer != null) {
+        if (questionTimer != null)
+        {
             questionTimer.cancel();
         }
 
@@ -141,12 +163,15 @@ public class TriviaServer {
         }, QUESTION_TIME_LIMIT * 1000); // Convert to milliseconds
     }
 
-    private void handleTimeExpired() {
+    private void handleTimeExpired()
+    {
         System.out.println("Time expired for question " + (currentQuestionIndex + 1));
 
         // Mark players who didn't answer as having answered (with wrong answer)
-        for (ClientHandler client : clients) {
-            if (client.username != null && !playersAnswered.contains(client.username)) {
+        for (ClientHandler client : clients)
+        {
+            if (client.username != null && !playersAnswered.contains(client.username))
+            {
                 playersAnswered.add(client.username);
                 client.sendMessage("TIME_EXPIRED");
             }
@@ -163,11 +188,13 @@ public class TriviaServer {
         }, 2000); // 2 second delay before next question
     }
 
-    private void endGame() {
+    private void endGame()
+    {
         gameInProgress = false;
 
         // Cancel timer if running
-        if (questionTimer != null) {
+        if (questionTimer != null)
+        {
             questionTimer.cancel();
         }
 
@@ -176,7 +203,8 @@ public class TriviaServer {
         sortedScores.sort((a, b) -> b.getValue().compareTo(a.getValue()));
 
         StringBuilder results = new StringBuilder("GAME_OVER|");
-        for (Map.Entry<String, Integer> entry : sortedScores) {
+        for (Map.Entry<String, Integer> entry : sortedScores)
+        {
             results.append(entry.getKey()).append(":").append(entry.getValue()).append("|");
         }
 
@@ -190,45 +218,58 @@ public class TriviaServer {
         playersAnswered.clear();
     }
 
-    private class ClientHandler implements Runnable {
+    private class ClientHandler implements Runnable
+    {
         private Socket socket;
         private PrintWriter out;
         private BufferedReader in;
         private String username;
 
-        public ClientHandler(Socket socket) {
+        public ClientHandler(Socket socket)
+        {
             this.socket = socket;
         }
 
-        public void sendMessage(String message) {
-            if (out != null) {
+        public void sendMessage(String message)
+        {
+            if (out != null)
+            {
                 out.println(message);
             }
         }
 
         @Override
-        public void run() {
-            try {
+        public void run()
+        {
+            try
+            {
                 out = new PrintWriter(socket.getOutputStream(), true);
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
                 String message;
-                while ((message = in.readLine()) != null) {
+                while ((message = in.readLine()) != null)
+                {
                     processMessage(message);
                 }
 
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 System.err.println("Client disconnected: " + username);
-            } finally {
+            }
+            finally
+            {
                 cleanup();
             }
         }
 
-        private void processMessage(String message) {
+        private void processMessage(String message)
+        {
             String[] parts = message.split("\\|");
             String command = parts[0];
 
-            switch (command) {
+            switch (command)
+            {
                 case "USERNAME":
                     username = parts[1];
                     playerScores.put(username, 0);
@@ -238,7 +279,8 @@ public class TriviaServer {
                     break;
 
                 case "QUESTION_SET":
-                    if (!gameInProgress) {
+                    if (!gameInProgress)
+                    {
                         int setIndex = Integer.parseInt(parts[1]);
                         String questionPath = "Mini Project/src/questionSet" + (setIndex + 1) + ".txt";
                         String answerPath = "Mini Project/src/answerSet" + (setIndex + 1) + ".txt";
@@ -252,7 +294,8 @@ public class TriviaServer {
                     playersReady++;
                     broadcast("PLAYER_READY|" + username + "|" + playersReady + "|" + clients.size());
 
-                    if (playersReady >= clients.size() && clients.size() > 0 && !gameInProgress) {
+                    if (playersReady >= clients.size() && clients.size() > 0 && !gameInProgress)
+                    {
                         gameInProgress = true;
 
                         // Small delay before starting
@@ -268,14 +311,16 @@ public class TriviaServer {
                     break;
 
                 case "ANSWER":
-                    if (gameInProgress && !playersAnswered.contains(username)) {
+                    if (gameInProgress && !playersAnswered.contains(username))
+                    {
                         playersAnswered.add(username);
 
                         int answerIndex = Integer.parseInt(parts[1]);
                         int correctAnswer = correctAnswers.get(currentQuestionIndex);
 
                         boolean correct = (answerIndex == correctAnswer);
-                        if (correct) {
+                        if (correct)
+                        {
                             playerScores.put(username, playerScores.get(username) + 1);
                         }
 
@@ -283,17 +328,20 @@ public class TriviaServer {
 
                         // Broadcast updated scores
                         StringBuilder scoreUpdate = new StringBuilder("SCORE_UPDATE|");
-                        for (Map.Entry<String, Integer> entry : playerScores.entrySet()) {
+                        for (Map.Entry<String, Integer> entry : playerScores.entrySet())
+                        {
                             scoreUpdate.append(entry.getKey()).append(":").append(entry.getValue()).append("|");
                         }
                         broadcast(scoreUpdate.toString());
 
                         // Check if all players have answered
-                        if (playersAnswered.size() >= clients.size()) {
+                        if (playersAnswered.size() >= clients.size())
+                        {
                             System.out.println("All players answered. Moving to next question.");
 
                             // Cancel the timer since everyone answered
-                            if (questionTimer != null) {
+                            if (questionTimer != null)
+                            {
                                 questionTimer.cancel();
                             }
 
@@ -311,11 +359,13 @@ public class TriviaServer {
                     break;
 
                 case "RESTART":
-                    if (!gameInProgress) {
+                    if (!gameInProgress)
+                    {
                         currentQuestionIndex = 0;
                         playersReady = 0;
                         playersAnswered.clear();
-                        for (String player : playerScores.keySet()) {
+                        for (String player : playerScores.keySet())
+                        {
                             playerScores.put(player, 0);
                         }
                         broadcast("GAME_RESET");
@@ -324,33 +374,42 @@ public class TriviaServer {
             }
         }
 
-        private void updatePlayerList() {
+        private void updatePlayerList()
+        {
             StringBuilder playerList = new StringBuilder("PLAYER_LIST|");
-            for (ClientHandler client : clients) {
-                if (client.username != null) {
+            for (ClientHandler client : clients)
+            {
+                if (client.username != null)
+                {
                     playerList.append(client.username).append("|");
                 }
             }
             broadcast(playerList.toString());
         }
 
-        private void cleanup() {
+        private void cleanup()
+        {
             clients.remove(this);
-            if (username != null) {
+            if (username != null)
+            {
                 playerScores.remove(username);
                 playersAnswered.remove(username);
                 updatePlayerList();
             }
 
-            try {
+            try
+            {
                 if (socket != null) socket.close();
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 e.printStackTrace();
             }
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         TriviaServer server = new TriviaServer();
         server.start();
     }

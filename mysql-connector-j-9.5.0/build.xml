@@ -34,22 +34,22 @@ Targets: "clean", "compile", "build" (default), "package", "package-no-sources",
 Testing MySQL Connector/J
 =========================
 
-MySQL Connector/J 9.5 ships with an extensive test suite that can be run by providing a MySQL JDBC URL in the variable 'com.mysql.cj.testsuite.url' and by
-running the target "test". If nothing else is set, the test suite runs with the JVM referred in the variable 'com.mysql.cj.build.jdk'.
+MySQL Connector/J 9.5 ships with an extensive FinalVersion suite that can be run by providing a MySQL JDBC URL in the variable 'com.mysql.cj.testsuite.url' and by
+running the target "FinalVersion". If nothing else is set, the FinalVersion suite runs with the JVM referred in the variable 'com.mysql.cj.build.jdk'.
 Alternatively, all tests can be run with a distinct JVM, provided that it is pointed out in the variable 'com.mysql.cj.testsuite.jvm'.
-Running only one test set is possible by setting the variable 'com.mysql.cj.testsuite.test.class' with the class' fully qualified name. If also a comma
-separated list of test names is provided in the variable 'com.mysql.cj.testsuite.test.methods', then only those will be executed.
+Running only one FinalVersion set is possible by setting the variable 'com.mysql.cj.testsuite.test.class' with the class' fully qualified name. If also a comma
+separated list of FinalVersion names is provided in the variable 'com.mysql.cj.testsuite.test.methods', then only those will be executed.
 
-Targets: "test"
+Targets: "FinalVersion"
 
 
 Coverage and instrumentation
 ============================
 
-This file ships with target "test-coverage" for collecting coverage results and "report-coverage" for creating the HTML coverage report.
+This file ships with target "FinalVersion-coverage" for collecting coverage results and "report-coverage" for creating the HTML coverage report.
 The JaCoCo library needed to run these targets can be found at https://github.com/jacoco/jacoco, its JARs should be placed into
 ${com.mysql.cj.extra.libs}/jacoco directory.
-The "test-coverage" target enables tests execution-time JaCoCo instrumentation, runs tests collecting coverage info into a result file
+The "FinalVersion-coverage" target enables tests execution-time JaCoCo instrumentation, runs tests collecting coverage info into a result file
 which path is set as ${com.mysql.cj.coverage.result.dir}/${com.mysql.cj.coverage.result.name}.
 The "report-coverage" target first merges coverage result files which are placed in 'com.mysql.cj.coverage.result.dir' directory and
 their comma-delimited names are passed via 'com.mysql.cj.coverage.merge.files' property. Merge result file path is passed
@@ -62,7 +62,7 @@ If some properties are not passed to ANT script then default values are used:
     com.mysql.cj.coverage.merge.result - ${com.mysql.cj.coverage.result.dir}/jacoco.exec
     com.mysql.cj.coverage.report.dir - ${com.mysql.cj.coverage.result.dir}/report
 
-Targets: "test-coverage", "report-coverage"
+Targets: "FinalVersion-coverage", "report-coverage"
 
 
 Generate X DevAPI reference documentation
@@ -74,10 +74,10 @@ Javadoc HTML files.
 Targets: "xdevapi-docs"
 
 
-Sample 'build.properties' that can be used to compile, build and test
+Sample 'build.properties' that can be used to compile, build and FinalVersion
 =====================================================================
 ~~~start cut here~~~
-# Basic settings for 'compile', 'test' and targets that depend on these.
+# Basic settings for 'compile', 'FinalVersion' and targets that depend on these.
 
 # External libraries needed for both compiling and testing:
 # - Further details in http://dev.mysql.com/doc/connector-j/en/connector-j-installing-source.html
@@ -95,13 +95,13 @@ com.mysql.cj.build.jdk=&lt;full_path_to_jdk1.8&gt;
 # - If not provided, JDBC tests are run with 'com.mysql.cj.build.jdk'.
 # - Optional.
 com.mysql.cj.testsuite.jvm=&lt;full_path_to_a_jdk_or_jre&gt;
-# - URL to the test database.
+# - URL to the FinalVersion database.
 # - Any of the current MySQL versions.
-# - Mandatory for 'test' target.
+# - Mandatory for 'FinalVersion' target.
 com.mysql.cj.testsuite.url=jdbc:mysql://&lt;host&gt;:&lt;port&gt;/&lt;testDB&gt;?user=&lt;user&gt;&amp;password=&lt;pwd&gt;
 com.mysql.cj.testsuite.mysqlx.url=jdbc:mysql://&lt;user&gt;:&lt;pwd&gt;@&lt;host&gt;:&lt;port&gt;/&lt;testDB&gt;
 
-# Cancels re-compiling between successive test executions.
+# Cancels re-compiling between successive FinalVersion executions.
 # - Comment variable if not needed.
 # - Optional.
 com.mysql.cj.build.noCleanBetweenCompiles=yes
@@ -162,19 +162,19 @@ com.mysql.cj.dist.deb.maintainerEmail - the deb package maintainer email: [${com
 
 com.mysql.cj.docs.xdevapi - destination of the X DevAPI Javadoc HTML files: [${com.mysql.cj.dist.dir.maven}] 
 
-Available test properties
+Available FinalVersion properties
 =========================
 
-com.mysql.cj.testsuite.jvm - path to the JVM used to run the test suite: [${com.mysql.cj.testsuite.jvm}]
-com.mysql.cj.testsuite.url - connection string to the test server: [${com.mysql.cj.testsuite.url}]
-com.mysql.cj.testsuite.mysqlx.url - connection string to the test server with X Plugin: [${com.mysql.cj.testsuite.mysqlx.url}]
-com.mysql.cj.testsuite.test.class - test class name to run: [${com.mysql.cj.testsuite.test.class}]
-com.mysql.cj.testsuite.test.methods - a comma separated list of test names existing in the class specified in 'com.mysql.cj.testsuite.test.class': [${com.mysql.cj.testsuite.test.methods}]
+com.mysql.cj.testsuite.jvm - path to the JVM used to run the FinalVersion suite: [${com.mysql.cj.testsuite.jvm}]
+com.mysql.cj.testsuite.url - connection string to the FinalVersion server: [${com.mysql.cj.testsuite.url}]
+com.mysql.cj.testsuite.mysqlx.url - connection string to the FinalVersion server with X Plugin: [${com.mysql.cj.testsuite.mysqlx.url}]
+com.mysql.cj.testsuite.test.class - FinalVersion class name to run: [${com.mysql.cj.testsuite.test.class}]
+com.mysql.cj.testsuite.test.methods - a comma separated list of FinalVersion names existing in the class specified in 'com.mysql.cj.testsuite.test.class': [${com.mysql.cj.testsuite.test.methods}]
 com.mysql.cj.testsuite.unavailable.host - a host:port pair used for tests checking socket connection timeout: [${com.mysql.cj.testsuite.unavailable.host}]
-com.mysql.cj.testsuite.build.dir - root directory for building the test suite: [${com.mysql.cj.testsuite.build.dir}]
+com.mysql.cj.testsuite.build.dir - root directory for building the FinalVersion suite: [${com.mysql.cj.testsuite.build.dir}]
 com.mysql.cj.testsuite.junit.results - where to put JUnit reports: [${com.mysql.cj.testsuite.junit.results}]
 
-See also com.mysql.cj.conf.PropertyDefinitions.SYSP_* variables for other test options.
+See also com.mysql.cj.conf.PropertyDefinitions.SYSP_* variables for other FinalVersion options.
 
 </description>
 
@@ -384,7 +384,7 @@ See also com.mysql.cj.conf.PropertyDefinitions.SYSP_* variables for other test o
             <arg value="-version" />
         </exec>
 
-        <fail message="JVM 1.8 or higher is required for running MySQL Connector/J test suite. Set the path to the JVM (JRE or JDK) home with the property 'com.mysql.cj.testsuite.jvm'. Default: '${com.mysql.cj.build.jdk}'.">
+        <fail message="JVM 1.8 or higher is required for running MySQL Connector/J FinalVersion suite. Set the path to the JVM (JRE or JDK) home with the property 'com.mysql.cj.testsuite.jvm'. Default: '${com.mysql.cj.build.jdk}'.">
             <condition>
                 <not>
                     <equals arg1="${com.mysql.cj.testsuite.jvm.exitStatus}" arg2="0" />
@@ -593,12 +593,12 @@ See also com.mysql.cj.conf.PropertyDefinitions.SYSP_* variables for other test o
     </target>
 
 
-    <!-- Copy test suite source files. -->
+    <!-- Copy FinalVersion suite source files. -->
     <target name="-copy-files-testsuite" depends="-copy-files">
         <mkdir dir="${com.mysql.cj.testsuite.build.dir}" />
 
         <copy todir="${com.mysql.cj.testsuite.build.dir}/${com.mysql.cj.build.driver.fullName}" filtering="true" encoding="UTF-8" outputencoding="UTF-8">
-            <fileset dir="src/test/java" />
+            <fileset dir="src/FinalVersion/java" />
             <filterset refid="versionFilterset" />
             <filterset refid="licenseFilterset" />
         </copy>
@@ -1033,9 +1033,9 @@ See also com.mysql.cj.conf.PropertyDefinitions.SYSP_* variables for other test o
     <!-- ********************* -->
 
 
-    <!-- Compile the driver, JUnit test suite and 'helpers' for third-party software. -->
+    <!-- Compile the driver, JUnit FinalVersion suite and 'helpers' for third-party software. -->
     <target name="compile"
-            description="Compiles driver, JUnit test suite and integration 'helpers' for third-party software."
+            description="Compiles driver, JUnit FinalVersion suite and integration 'helpers' for third-party software."
             depends="-init, -compile-driver, -compile-integration" />
 
 
@@ -1086,7 +1086,7 @@ See also com.mysql.cj.conf.PropertyDefinitions.SYSP_* variables for other test o
     </target>
 
 
-    <!-- Compile the driver and JUnit test suite. -->
+    <!-- Compile the driver and JUnit FinalVersion suite. -->
     <target name="-compile-testsuite" depends="-init, -copy-files-testsuite">
         <echo>Compiling MySQL Connector/J testsuite with '${com.mysql.cj.build.jdk}' to '${com.mysql.cj.testsuite.compiler.output}'</echo>
 
@@ -1256,9 +1256,9 @@ See also com.mysql.cj.conf.PropertyDefinitions.SYSP_* variables for other test o
     </target>
 
 
-    <!-- Run the full test suite, single test set or named tests against one JVM and one server config. -->
-    <target name="test"
-            description="Runs the full test suite, single test set (variable 'com.mysql.cj.testsuite.test.class') or named tests (variables 'com.mysql.cj.testsuite.test.class' and 'com.mysql.cj.testsuite.test.methods') against one JVM and one server config."
+    <!-- Run the full FinalVersion suite, single FinalVersion set or named tests against one JVM and one server config. -->
+    <target name="FinalVersion"
+            description="Runs the full FinalVersion suite, single FinalVersion set (variable 'com.mysql.cj.testsuite.test.class') or named tests (variables 'com.mysql.cj.testsuite.test.class' and 'com.mysql.cj.testsuite.test.methods') against one JVM and one server config."
             depends="build, -testsuite-jvm-check, -compile-testsuite, -init-custom-xslt">
 
         <mkdir dir="${com.mysql.cj.testsuite.junit.results}/report" />
@@ -1305,8 +1305,8 @@ See also com.mysql.cj.conf.PropertyDefinitions.SYSP_* variables for other test o
             <istrue value="${com.mysql.cj.testsuite.run.all}" />
         </condition>
         <condition property="com.mysql.cj.testsuite.run.message"
-                   value="Running JDBC unit test '${com.mysql.cj.testsuite.test.class}' against '${com.mysql.cj.testsuite.url}' with jvm '${com.mysql.cj.testsuite.jvm.java}'"
-                   else="Running JDBC unit test '${com.mysql.cj.testsuite.test.class}', method(s) '${com.mysql.cj.testsuite.test.methods}' against '${com.mysql.cj.testsuite.url}' with jvm '${com.mysql.cj.testsuite.jvm.java}'">
+                   value="Running JDBC unit FinalVersion '${com.mysql.cj.testsuite.test.class}' against '${com.mysql.cj.testsuite.url}' with jvm '${com.mysql.cj.testsuite.jvm.java}'"
+                   else="Running JDBC unit FinalVersion '${com.mysql.cj.testsuite.test.class}', method(s) '${com.mysql.cj.testsuite.test.methods}' against '${com.mysql.cj.testsuite.url}' with jvm '${com.mysql.cj.testsuite.jvm.java}'">
             <istrue value="${com.mysql.cj.testsuite.run.class}" />
         </condition>
         <echo>${com.mysql.cj.testsuite.run.message}</echo>
@@ -1323,7 +1323,7 @@ See also com.mysql.cj.conf.PropertyDefinitions.SYSP_* variables for other test o
             </and>
         </condition>
 
-        <!-- ant 1.10.10 and above print report summaries to the console from where test counts can be retrieved. -->
+        <!-- ant 1.10.10 and above print report summaries to the console from where FinalVersion counts can be retrieved. -->
         <antversion property="com.mysql.cj.testsuite.ant.version" atleast="1.10.10" />
 
         <junitlauncher haltOnFailure="false" printSummary="true" failureProperty="com.mysql.cj.testsuite.junit.fail">
@@ -1395,10 +1395,10 @@ See also com.mysql.cj.conf.PropertyDefinitions.SYSP_* variables for other test o
     <!-- ************************************** -->
 
 
-    <target name="test-coverage" description="Runs the test suite collecting coverage data." depends="-setup-test-coverage-agent, test" />
+    <target name="FinalVersion-coverage" description="Runs the FinalVersion suite collecting coverage data." depends="-setup-FinalVersion-coverage-agent, FinalVersion" />
 
 
-    <target name="-set-test-coverage-defaults" depends="-extra-libs-check">
+    <target name="-set-FinalVersion-coverage-defaults" depends="-extra-libs-check">
         <condition property="com.mysql.cj.coverage.result.dir.final"
                    value="${com.mysql.cj.coverage.result.dir}"
                    else="${com.mysql.cj.testsuite.build.dir}/coverage">
@@ -1418,7 +1418,7 @@ See also com.mysql.cj.conf.PropertyDefinitions.SYSP_* variables for other test o
     </target>
 
 
-    <target name="-setup-test-coverage-agent" depends="-set-test-coverage-defaults">
+    <target name="-setup-FinalVersion-coverage-agent" depends="-set-FinalVersion-coverage-defaults">
         <jacoco:agent destfile="${com.mysql.cj.coverage.result.dir.final}/${com.mysql.cj.coverage.result.name.final}"
                       property="com.mysql.cj.testsuite.test.coverage.jvmarg" />
     </target>
@@ -1464,7 +1464,7 @@ See also com.mysql.cj.conf.PropertyDefinitions.SYSP_* variables for other test o
     </target>
 
 
-    <target name="-set-report-coverage-defaults" depends="-set-test-coverage-defaults">
+    <target name="-set-report-coverage-defaults" depends="-set-FinalVersion-coverage-defaults">
         <condition property="com.mysql.cj.coverage.merge.result.final"
                    value="${com.mysql.cj.coverage.merge.result}"
                    else="${com.mysql.cj.coverage.result.dir.final}/jacoco.exec">

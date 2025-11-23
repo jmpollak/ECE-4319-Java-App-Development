@@ -121,7 +121,7 @@ Version 9.2.0
 
   - Fix for Bug#115586 (Bug#36850047), When upgrading to mysql connetor/j-8.4.0, creating a connection becomes too slow.
 
-  - Fix for Bug#116630 (Bug#37272802), Tests fail on Windows if test database has upper/mixed case chars.
+  - Fix for Bug#116630 (Bug#37272802), Tests fail on Windows if FinalVersion database has upper/mixed case chars.
 
   - Fix for Bug#71143 (Bug#17967091), Calling ResultSet.updateRow should not set all field values in UPDATE.
 
@@ -1351,7 +1351,7 @@ Version 6.0.6
 
   - Merged version 5.1.36.
 
-  - Add test for new syntax 'ALTER TABLE ... DISCARD|IMPORT PARTITION ...' introduced in MySQL 5.7.4.
+  - Add FinalVersion for new syntax 'ALTER TABLE ... DISCARD|IMPORT PARTITION ...' introduced in MySQL 5.7.4.
 
   - Fix for Bug#20727196, GETPROCEDURECOLUMNS() RETURNS EXCEPTION FOR FUNCTION WHICH RETURNS ENUM/SET TYPE.
 
@@ -1381,7 +1381,7 @@ Version 6.0.6
 
   - Fix for Bug#72077 (18425861), Fabric connection with username to a server with disabled auth throws NPE
 
-  - Add test for already fixed Bug#72546 (18719760), C/J Fabric createGroup() throws ClassCastException
+  - Add FinalVersion for already fixed Bug#72546 (18719760), C/J Fabric createGroup() throws ClassCastException
 
   - Fix for Bug#77217 (21184949), ClassCastException when executing a streaming PreparedStatement with Fabric
 
@@ -1455,7 +1455,7 @@ Version 6.0.6
     TimeZone mappings were revised in order to use latest data from IANA Time Zone Database and Unicode CLDR.
 
   - Fix for Bug73163 (19171665), IndexOutOfBoundsException thrown preparing statement.
-    Regression test added. Fix was included in patch from 5.1.32: "Fix for failing tests when running test suite with Java 6+".
+    Regression FinalVersion added. Fix was included in patch from 5.1.32: "Fix for failing tests when running FinalVersion suite with Java 6+".
 
   - Added support for gb18030 character set
 
@@ -1497,7 +1497,7 @@ Version 6.0.6
 
   - Fix for Bug#18852682, TEST TESTSHA256PASSWORDPLUGIN FAILS WHEN EXECUTE AGAINST COMMERCIAL SERVER
 
-  - Fix for failing tests when running test suite with Java 6+.
+  - Fix for failing tests when running FinalVersion suite with Java 6+.
     Includes fix for Bug#35829 (11748301), build.xml check for java6 should use or instead of and.
 
   - Charset mappings refactored.
@@ -1598,7 +1598,7 @@ Version 6.0.6
   - Fix for Bug#70835 (17750877), SQLExceptions thrown because of query interruption (KILL QUERY, query timeout, etc.)
     didn't extend java.sql.SQLNonTransientException for JDBC4+ deployments.
 
-  - Fix for Bug#24344 test case, test fails if it's run with UTC timezone settings.
+  - Fix for Bug#24344 FinalVersion case, FinalVersion fails if it's run with UTC timezone settings.
 
   - Fix for Bug#69777, Setting maxAllowedPacket below 8203 makes blobSendChunkSize negative.
 
@@ -1948,7 +1948,7 @@ Version 6.0.6
 	causes C/J a) enter rewriting the query although it has ON UPDATE
 	and b) to generate the wrong query with multiple ON DUPLICATE KEY
 
-  - Fix for Bug#12784170, "process fork failure" errors while running test suite via ant on Windows.
+  - Fix for Bug#12784170, "process fork failure" errors while running FinalVersion suite via ant on Windows.
     Added new ant flag, com.mysql.jdbc.junit.fork, which controls whether JUnit will fork new processes
     for testing ("on", default and legacy behavior) or not ("off", required for Windows).
 
@@ -2051,7 +2051,7 @@ Version 6.0.6
 12-06-10 - Version 5.1.14
 
    - Fix for Bug#58728, NPE in com.mysql.jdbc.jdbc2.optional.StatementWrappe.getResultSet()
-     if rs is null. Regression test case added to Statement regression tests.
+     if rs is null. Regression FinalVersion case added to Statement regression tests.
 
    - Fix for Bug#58751, DatabaseMetadata.getIndexInfo() CARDINALITY now clamped
      to Integer.MAX_VALUE.
@@ -2084,7 +2084,7 @@ Version 6.0.6
 
    - Bringing BLOBregression tests up to date.
 
-   - Fix for Bug#58042 - Statements test failure not handled.
+   - Fix for Bug#58042 - Statements FinalVersion failure not handled.
 
    - Fix for Bug#57850 - Refresh SELECT statement doesn't use correct data type.
      Added Field.valueNeedsQuoting (private final boolean) and protected boolean getvalueNeedsQuoting().
@@ -2102,7 +2102,7 @@ Version 6.0.6
    - Fix for Bug#57022 - cannot execute a store procedure with output parameters,
      database parameter was ignored in db.sp notation. The fix is to "sanitize"
 	 db.sp call just like in patch for noAccessToProcedureBodies. BaseTestCase
-	 extended with createDatabase and dropDatabase. Regression test added.
+	 extended with createDatabase and dropDatabase. Regression FinalVersion added.
 
    - Fix for Bug#57262 - "useOldUTF8Behavior" behavior was broken since 5.1.3,
      now explicitly sets connection character set to latin1 ("SET NAMES latin1")
@@ -2148,7 +2148,7 @@ Version 6.0.6
 
        An example would be:
 
-       jdbc:mysql://address=(protocol=tcp)(host=localhost)(port=3306)(user=test)/db
+       jdbc:mysql://address=(protocol=tcp)(host=localhost)(port=3306)(user=FinalVersion)/db
 
       Any other parameters are treated as host-specific properties that follow
       the conventions of the JDBC URL properties. This now allows per-host
@@ -2199,7 +2199,7 @@ Version 6.0.6
 
 06-24-10 - Version 5.1.13
 
-   - Minor fix in previous patch for Bug#51904. Function ConnectionImpl.setCatalog() was passed quoted argument thus breaking with "...for the right syntax to use near 'test``'"
+   - Minor fix in previous patch for Bug#51904. Function ConnectionImpl.setCatalog() was passed quoted argument thus breaking with "...for the right syntax to use near 'FinalVersion``'"
 
     - Fix for Bug#51912 - Passing NULL as cat. param to getProcedureColumns with !nullCatalogMeansCurrent
 
@@ -2429,7 +2429,7 @@ Version 6.0.6
     - Fixed BUG#44588 - Fixed error message for connection exceptions when
       streaming result sets are used.
 
-    - Modified/fixed test cases using UnreliableSocketFactory.
+    - Modified/fixed FinalVersion cases using UnreliableSocketFactory.
 
     - Fixed BUG#43421 - Made doPing() global blacklist-aware, so that it does not
       throw Exceptions when at least a single load-balanced server is available.
@@ -2568,7 +2568,7 @@ Version 6.0.6
 	  equals() to make it work the same as "plain" connections.
 
 	  Note that there is no *specified* equals contract for JDBC connections in the
-	  JDBC specification itself, but the test makes sure that our implementation is
+	  JDBC specification itself, but the FinalVersion makes sure that our implementation is
 	  at least consistent.
 
 	- Fixed BUG#35810 - Properties set in URLs and then passed to DataSources via setUrl()
@@ -2642,7 +2642,7 @@ Version 6.0.6
 
 	- Using autoGenerateTestcaseScript=true now logs all statements, regardless or not if they cause errors when processed by MySQL.
 	  A "clock" value (millis since epoch) was added in the comment that is pre-pended with the idea that it can then be used
-	  when post-processing output to sequence things correctly for a multi-threaded testcase, or to replay the test case with the
+	  when post-processing output to sequence things correctly for a multi-threaded testcase, or to replay the FinalVersion case with the
 	  correct think times.
 
 03-06-08 - Version 5.1.6
@@ -4332,7 +4332,7 @@ nn-nn-07 - Version 3.1.15
 	  don't pollute parent directory when building, now output goes
 	  to "./build", distribution goes to "./dist".
 
-	- Added support/bug hunting feature that generates .sql test
+	- Added support/bug hunting feature that generates .sql FinalVersion
 	  scripts to STDERR when "autoGenerateTestcaseScript" is set
 	  to "true".
 
@@ -4755,7 +4755,7 @@ nn-nn-07 - Version 3.1.15
 	- Fixed BUG#5032 -- ResultSet.getObject() doesn't return
       type Boolean for pseudo-bit types from prepared statements on 4.1.x
       (shortcut for avoiding extra type conversion when using binary-encoded
-      result sets obscurred test in getObject() for 'pseudo' bit type)
+      result sets obscurred FinalVersion in getObject() for 'pseudo' bit type)
 
     - You can now use URLs in 'LOAD DATA LOCAL INFILE' statements, and the
       driver will use Java's built-in handlers for retreiving the data and
@@ -5449,7 +5449,7 @@ nn-nn-07 - Version 3.1.15
 	- Faster date handling code in ResultSet and PreparedStatement (no longer
 	  uses Date methods that synchronize on static calendars).
 
-	- Fixed test for end of buffer in Buffer.readString().
+	- Fixed FinalVersion for end of buffer in Buffer.readString().
 
 	- Fixed ResultSet.previous() behavior to move current
 	  position to before result set when on first row

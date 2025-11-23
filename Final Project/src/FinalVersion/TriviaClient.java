@@ -1,4 +1,4 @@
-package test;
+package FinalVersion;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -71,9 +71,10 @@ public class TriviaClient extends JFrame {
         // connect to the server
         createConnectionPanel();
 
-        //
+        // username and password
         createUsernamePanel();
 
+        // connects all users
         createLobbyPanel();
 
         createQuestionSetPanel();
@@ -89,7 +90,8 @@ public class TriviaClient extends JFrame {
         playButton.addActionListener(handler);
     }
 
-    private void createWelcomePanel() {
+    private void createWelcomePanel()
+    {
         JPanel welcomePanel = new JPanel(new BorderLayout());
 
         JLabel title = new JLabel("Multiplayer Trivia Game", SwingConstants.CENTER);
@@ -106,7 +108,8 @@ public class TriviaClient extends JFrame {
         cardPanel.add(welcomePanel, "WELCOME");
     }
 
-    private void createConnectionPanel() {
+    private void createConnectionPanel()
+    {
         JPanel connectionPanel = new JPanel(new BorderLayout());
 
         JLabel title = new JLabel("Server Connection", SwingConstants.CENTER);
@@ -127,9 +130,12 @@ public class TriviaClient extends JFrame {
         JButton connectButton = new JButton("Connect");
         connectButton.addActionListener(e -> {
             serverAddress = serverField.getText();
-            if (connectToServer()) {
+            if (connectToServer())
+            {
                 cardLayout.show(cardPanel, "USERNAME");
-            } else {
+            }
+            else
+            {
                 JOptionPane.showMessageDialog(this,
                         "Failed to connect to server. Make sure the server is running.",
                         "Connection Error",
@@ -311,7 +317,8 @@ public class TriviaClient extends JFrame {
     }
 
     private boolean connectToServer() {
-        try {
+        try
+        {
             socket = new Socket(serverAddress, PORT);
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -320,28 +327,36 @@ public class TriviaClient extends JFrame {
 
             System.out.println("Connected to server at " + serverAddress + ":" + PORT);
             return true;
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             System.err.println("Connection failed: " + e.getMessage());
             return false;
         }
     }
 
-    private void sendMessage(String message) {
-        if (out != null) {
+    private void sendMessage(String message)
+    {
+        if (out != null)
+        {
             out.println(message);
         }
     }
 
-    private void enableOptionButtons(boolean enabled) {
-        for (JButton button : optionButtons) {
+    private void enableOptionButtons(boolean enabled)
+    {
+        for (JButton button : optionButtons)
+        {
             button.setEnabled(enabled);
             button.setBackground(null);
         }
     }
 
-    private void startCountdown(int seconds) {
+    private void startCountdown(int seconds)
+    {
         // Cancel any existing timer
-        if (countdownTimer != null) {
+        if (countdownTimer != null)
+        {
             countdownTimer.cancel();
         }
 
@@ -360,21 +375,27 @@ public class TriviaClient extends JFrame {
                     timerProgressBar.setValue(percentage);
 
                     // Change color based on time remaining
-                    if (timeRemaining <= 5) {
+                    if (timeRemaining <= 5)
+                    {
                         timerLabel.setForeground(Color.RED);
                         timerProgressBar.setForeground(Color.RED);
-                    } else if (timeRemaining <= 10) {
+                    } else if (timeRemaining <= 10)
+                    {
                         timerLabel.setForeground(Color.ORANGE);
                         timerProgressBar.setForeground(Color.ORANGE);
-                    } else {
+                    }
+                    else
+                    {
                         timerLabel.setForeground(Color.GREEN);
                         timerProgressBar.setForeground(Color.GREEN);
                     }
 
-                    if (timeRemaining <= 0) {
+                    if (timeRemaining <= 0)
+                    {
                         countdownTimer.cancel();
                         // Timer expired on client side
-                        if (!waitingForAnswer) {
+                        if (!waitingForAnswer)
+                        {
                             enableOptionButtons(false);
                         }
                     }
@@ -385,8 +406,10 @@ public class TriviaClient extends JFrame {
         }, 0, 1000); // Update every 1 second
     }
 
-    private void stopCountdown() {
-        if (countdownTimer != null) {
+    private void stopCountdown()
+    {
+        if (countdownTimer != null)
+        {
             countdownTimer.cancel();
             countdownTimer = null;
         }
@@ -486,7 +509,8 @@ public class TriviaClient extends JFrame {
 
                     case "PLAYER_LIST":
                         StringBuilder players = new StringBuilder("Players: ");
-                        for (int i = 1; i < parts.length; i++) {
+                        for (int i = 1; i < parts.length; i++)
+                        {
                             players.append(parts[i]).append(", ");
                         }
                         playerListLabel.setText(players.toString());
@@ -509,7 +533,8 @@ public class TriviaClient extends JFrame {
                         currentQuestionNumber = Integer.parseInt(parts[1]);
                         int timeLimit = Integer.parseInt(parts[2]);
                         questionLabel.setText(parts[3]);
-                        for (int i = 0; i < 4; i++) {
+                        for (int i = 0; i < 4; i++)
+                        {
                             optionButtons[i].setText(parts[i + 4]);
                         }
                         enableOptionButtons(true);
@@ -525,10 +550,13 @@ public class TriviaClient extends JFrame {
 
                         stopCountdown();
 
-                        if (correct) {
+                        if (correct)
+                        {
                             JOptionPane.showMessageDialog(TriviaClient.this,
                                     "Correct! Score: " + score + "/10");
-                        } else {
+                        }
+                        else
+                        {
                             JOptionPane.showMessageDialog(TriviaClient.this,
                                     "Incorrect! Score: " + score + "/10");
                         }
@@ -550,9 +578,11 @@ public class TriviaClient extends JFrame {
                     case "GAME_OVER":
                         stopCountdown();
                         StringBuilder results = new StringBuilder("Final Standings:\n\n");
-                        for (int i = 1; i < parts.length; i++) {
+                        for (int i = 1; i < parts.length; i++)
+                        {
                             String[] playerScore = parts[i].split(":");
-                            if (playerScore.length == 2) {
+                            if (playerScore.length == 2)
+                            {
                                 results.append(i).append(". ")
                                         .append(playerScore[0])
                                         .append(": ")
