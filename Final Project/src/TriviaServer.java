@@ -1,4 +1,3 @@
-package FinalVersion;
 import java.io.*;
 import java.net.*;
 import java.sql.ResultSet;
@@ -427,8 +426,8 @@ public class TriviaServer
                     {
                         int setIndex = Integer.parseInt(parts[1]);
                         currentCategory = setIndex + 1; // Store category (1-4)
-                        String questionPath = "Mini Project/src/questionSet" + (setIndex + 1) + ".txt";
-                        String answerPath = "Mini Project/src/answerSet" + (setIndex + 1) + ".txt";
+                        String questionPath = "Final Project/src/questionSet" + (setIndex + 1) + ".txt";
+                        String answerPath = "Final Project/src/answerSet" + (setIndex + 1) + ".txt";
                         loadQuestions(questionPath, answerPath);
                         currentQuestionSet = parts[2];
                         broadcast("QUESTION_SET_SELECTED|" + currentQuestionSet);

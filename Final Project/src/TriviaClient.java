@@ -1,4 +1,3 @@
-package FinalVersion;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -126,11 +125,10 @@ public class TriviaClient extends JFrame {
         title.setFont(new Font("Arial", Font.BOLD, 20));
         connectionPanel.add(title, BorderLayout.NORTH);
 
-        JPanel inputPanel = new JPanel(new GridLayout(3, 2, 10, 10));
-        inputPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        JPanel inputPanel = new JPanel(new FlowLayout());
 
         JLabel serverLabel = new JLabel("Server Address:");
-        JTextField serverField = new JTextField("localhost");
+        JTextField serverField = new JTextField("localhost", 32);
 
         inputPanel.add(serverLabel);
         inputPanel.add(serverField);
@@ -165,8 +163,7 @@ public class TriviaClient extends JFrame {
         title.setFont(new Font("Arial", Font.BOLD, 20));
         usernamePanel.add(title, BorderLayout.NORTH);
 
-        JPanel inputPanel = new JPanel(new GridLayout(3, 2, 10, 10));
-        inputPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
+        JPanel inputPanel = new JPanel(new FlowLayout());
 
         // Username field
         JLabel usernameLabel = new JLabel("Username:");

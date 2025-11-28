@@ -1,5 +1,3 @@
-package FinalVersion;
-
 import java.sql.*;
 
 public class UserCRUD
