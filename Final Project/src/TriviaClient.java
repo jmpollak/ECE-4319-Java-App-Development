@@ -898,7 +898,7 @@ public class TriviaClient extends JFrame {
         SwingUtilities.invokeLater(() -> {
             TriviaClient client = new TriviaClient();
             client.setSize(900, 700);
-            client.setTitle("ECE 4317 Final Project: Multiplayer Trivia Game");
+            client.setTitle("ECE 4319 Final Project: Multiplayer Trivia Game");
             client.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             client.setLocationRelativeTo(null);
             client.setVisible(true);
