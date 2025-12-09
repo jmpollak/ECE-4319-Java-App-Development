@@ -56,10 +56,6 @@ public class CardLayoutFrame extends JFrame
         cardPanel = new JPanel(cardLayout);
         currentQuestionIndex = 0;
 
-        // Adds the questions
-        //importQuestions(); // Hard Code Method
-        //importQuestionsFromFile(); // Reading from File
-
         // welcome
         createWelcomePanel();
 
@@ -405,22 +401,26 @@ public class CardLayoutFrame extends JFrame
             switch (index)
             {
                 case 0:
-                    importQuestionsFromFile("Mini Project/src/questionSet1.txt","Mini Project/src/answerSet1.txt");
+                    importQuestionsFromFile("Mini Project/src/questionSet1.txt",
+                                             "Mini Project/src/answerSet1.txt");
                     loadNextQuestion();
                     cardLayout.show(cardPanel, "G");
                     break;
                 case 1:
-                    importQuestionsFromFile("Mini Project/src/questionSet2.txt","Mini Project/src/answerSet2.txt");
+                    importQuestionsFromFile("Mini Project/src/questionSet2.txt",
+                                             "Mini Project/src/answerSet2.txt");
                     loadNextQuestion();
                     cardLayout.show(cardPanel, "G");
                     break;
                 case 2:
-                    importQuestionsFromFile("Mini Project/src/questionSet3.txt","Mini Project/src/answerSet3.txt");
+                    importQuestionsFromFile("Mini Project/src/questionSet3.txt",
+                                             "Mini Project/src/answerSet3.txt");
                     loadNextQuestion();
                     cardLayout.show(cardPanel, "G");
                     break;
                 case 3:
-                    importQuestionsFromFile("Mini Project/src/questionSet4.txt","Mini Project/src/answerSet4.txt");
+                    importQuestionsFromFile("Mini Project/src/questionSet4.txt",
+                                             "Mini Project/src/answerSet4.txt");
                     loadNextQuestion();
                     cardLayout.show(cardPanel, "G");
                     break;
